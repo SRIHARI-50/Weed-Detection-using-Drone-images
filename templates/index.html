@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Weed Detection </title>
+        <style>
+            body{
+                margin: 0;
+            }
+            nav{
+                background-color: #E1FFEE;
+                padding: 5px;
+                color: #7FBCD2;
+                font-style: oblique;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 20px;
+            }
+
+            h1{
+                margin-left: 25px;
+            }
+            
+            h2{
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                text-align: center;
+                color: #7FBCD2;
+                font-style: oblique;
+                padding: 10px;
+            }
+
+            .predict{
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background-color: lightskyblue;
+                color: aliceblue;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                font-size: 20px;
+                font-weight: bold;
+                border: 0;
+            }
+
+            .bottom{
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                text-align: center;
+                color: #7FBCD2;
+                font-style: oblique;
+                padding: 10px;
+            }
+
+            /* Dropdown Button */
+            .dropbtn {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #E1FFEE;
+                color: #7FBCD2;
+                padding: 16px;
+                font-size: 16px;
+                margin-bottom: 20px;
+                border: none;
+                cursor: pointer;
+            }
+            
+            /* Dropdown button on hover & focus */
+            .dropbtn:hover, .dropbtn:focus {
+                background-color: #7FBCD2;
+                color: aliceblue;
+            }
+            
+            /* The container <div> - needed to position the dropdown content */
+            .dropdown {
+                position: inherit;
+                display: inline-block;
+            }
+            
+            /* Dropdown Content (Hidden by Default) */
+            .dropdown-content {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                display: none;
+                position: absolute;
+                background-color: #f1f1f1;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+            
+            /* Links inside the dropdown */
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+            
+            /* Change color of dropdown links on hover */
+            .dropdown-content a:hover {background-color: #ddd;}
+            
+            /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+            .show {display:block;}
+
+            #w1{
+                display: none;
+            }
+
+            #w2{
+                display: none;
+            }
+
+            #w3{
+                display: none;
+            }
+
+            #w4{
+                display: none;
+            }
+
+            #w5{
+                display: none;
+            }
+
+            #d1{
+                display: none;
+            }
+
+            #d2{
+                display: none;
+            }
+
+            #d3{
+                display: none;
+            }
+
+            #d4{
+                display: none;
+            }
+
+            #d5{
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <h1>Weed Detection</h1>
+        </nav>
+        <center>
+        <h2>Upload Image</h2>
+        <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">Choose File</button>
+            <div id="myDropdown" class="dropdown-content">
+              <a href="#" onclick="myfunc()">Weed 1</a>
+              <a href="#" onclick="myfunc1()">Weed 2</a>
+              <a href="#" onclick="myfunc2()">Weed 3</a>
+              <a href="#" onclick="myfunc3()">Weed 4</a>
+              <a href="#" onclick="myfunc4()">Weed 5</a>
+            </div>
+        </div>
+        <div>
+            <button type="submit" onclick="detects()" class="predict">Detect</button>
+        </div>
+        </center>
+        <center>
+            <p><img id="w1" src="D:\Project Files\Weed_Detection_using_Drone\input\test\weed1.jpg" width="auto" height="350"></p>
+            <p><img id="w2" src="D:\Project Files\Weed_Detection_using_Drone\input\test\weed2.jpg" width="auto" height="350"></p>
+            <p><img id="w3" src="D:\Project Files\Weed_Detection_using_Drone\input\test\weed3.jpg" width="auto" height="350"></p>
+            <p><img id="w4" src="D:\Project Files\Weed_Detection_using_Drone\input\test\weed4.jpeg" width="auto" height="350"></p>
+            <p><img id="w5" src="D:\Project Files\Weed_Detection_using_Drone\input\test\weed5.jpg" width="auto" height="350"></p>
+            <p><img id="d1" src="D:\Project Files\Weed_Detection_using_Drone\static\detect1.jpg" width="auto" height="350"></p>
+            <p><img id="d2" src="D:\Project Files\Weed_Detection_using_Drone\static\detect2.jpg" width="auto" height="350"></p>
+            <p><img id="d3" src="D:\Project Files\Weed_Detection_using_Drone\static\detect3.jpg" width="auto" height="350"></p>
+            <p><img id="d4" src="D:\Project Files\Weed_Detection_using_Drone\static\detect4.jpg" width="auto" height="350"></p>
+            <p><img id="d5" src="D:\Project Files\Weed_Detection_using_Drone\static\detect5.jpg" width="auto" height="350"></p>
+        </center>
+        <footer>
+            <p class="bottom"> Copyright @ 2022 | Srihari </p>
+        </footer>
+    </body>
+    <script>
+        var loadFile = function(event) {
+	        var image = document.getElementById('img');
+	        image.src = URL.createObjectURL(event.target.files[0]);
+        };
+
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown menu if the user clicks outside of it
+        window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+            }
+        }
+        }
+        let x = "";
+        const myfunc = () => {
+            x = "w1";
+            document.getElementById("w1").style.display ='block';
+            document.getElementById("w2").style.display ='none';
+            document.getElementById("w3").style.display ='none';
+            document.getElementById("w4").style.display ='none';
+            document.getElementById("w5").style.display ='none';
+            document.getElementById("d1").style.display ='none';
+            document.getElementById("d2").style.display ='none';
+            document.getElementById("d3").style.display ='none';
+            document.getElementById("d4").style.display ='none';
+            document.getElementById("d5").style.display ='none';
+        }
+
+        const myfunc1 = () => {
+            x = "w2";
+            document.getElementById("w1").style.display ='none';
+            document.getElementById("w2").style.display ='block';
+            document.getElementById("w3").style.display ='none';
+            document.getElementById("w4").style.display ='none';
+            document.getElementById("w5").style.display ='none';
+            document.getElementById("d1").style.display ='none';
+            document.getElementById("d2").style.display ='none';
+            document.getElementById("d3").style.display ='none';
+            document.getElementById("d4").style.display ='none';
+            document.getElementById("d5").style.display ='none';
+        }
+
+        const myfunc2 = () => {
+            x = "w3";
+            document.getElementById("w1").style.display ='none';
+            document.getElementById("w2").style.display ='none';
+            document.getElementById("w3").style.display ='block';
+            document.getElementById("w4").style.display ='none';
+            document.getElementById("w5").style.display ='none';
+            document.getElementById("d1").style.display ='none';
+            document.getElementById("d2").style.display ='none';
+            document.getElementById("d3").style.display ='none';
+            document.getElementById("d4").style.display ='none';
+            document.getElementById("d5").style.display ='none';
+        }
+
+        const myfunc3 = () => {
+            x = "w4";
+            document.getElementById("w1").style.display ='none';
+            document.getElementById("w2").style.display ='none';
+            document.getElementById("w3").style.display ='none';
+            document.getElementById("w4").style.display ='block';
+            document.getElementById("w5").style.display ='none';
+            document.getElementById("d1").style.display ='none';
+            document.getElementById("d2").style.display ='none';
+            document.getElementById("d3").style.display ='none';
+            document.getElementById("d4").style.display ='none';
+            document.getElementById("d5").style.display ='none';
+        }
+
+        const myfunc4 = () => {
+            x = "w5";
+            document.getElementById("w1").style.display ='none';
+            document.getElementById("w2").style.display ='none';
+            document.getElementById("w3").style.display ='none';
+            document.getElementById("w4").style.display ='none';
+            document.getElementById("w5").style.display ='block';
+            document.getElementById("d1").style.display ='none';
+            document.getElementById("d2").style.display ='none';
+            document.getElementById("d3").style.display ='none';
+            document.getElementById("d4").style.display ='none';
+            document.getElementById("d5").style.display ='none';
+        }
+
+        
+        const detects = () => {
+            if(x == "w1"){
+                document.getElementById("w1").style.display ='none';
+                document.getElementById("w2").style.display ='none';
+                document.getElementById("w3").style.display ='none';
+                document.getElementById("w4").style.display ='none';
+                document.getElementById("w5").style.display ='none';
+                document.getElementById("d1").style.display ='block';
+                document.getElementById("d2").style.display ='none';
+                document.getElementById("d3").style.display ='none';
+                document.getElementById("d4").style.display ='none';
+                document.getElementById("d5").style.display ='none';
+            }
+            else if(x == "w2"){
+                document.getElementById("w1").style.display ='none';
+                document.getElementById("w2").style.display ='none';
+                document.getElementById("w3").style.display ='none';
+                document.getElementById("w4").style.display ='none';
+                document.getElementById("w5").style.display ='none';
+                document.getElementById("d1").style.display ='none';
+                document.getElementById("d2").style.display ='block';
+                document.getElementById("d3").style.display ='none';
+                document.getElementById("d4").style.display ='none';
+                document.getElementById("d5").style.display ='none';
+            }
+            else if(x == "w3"){
+                document.getElementById("w1").style.display ='none';
+                document.getElementById("w2").style.display ='none';
+                document.getElementById("w3").style.display ='none';
+                document.getElementById("w4").style.display ='none';
+                document.getElementById("w5").style.display ='none';
+                document.getElementById("d1").style.display ='none';
+                document.getElementById("d2").style.display ='none';
+                document.getElementById("d3").style.display ='block';
+                document.getElementById("d4").style.display ='none';
+                document.getElementById("d5").style.display ='none';
+            }
+            else if(x == "w4"){
+                document.getElementById("w1").style.display ='none';
+                document.getElementById("w2").style.display ='none';
+                document.getElementById("w3").style.display ='none';
+                document.getElementById("w4").style.display ='none';
+                document.getElementById("w5").style.display ='none';
+                document.getElementById("d1").style.display ='none';
+                document.getElementById("d2").style.display ='none';
+                document.getElementById("d3").style.display ='none';
+                document.getElementById("d4").style.display ='block';
+                document.getElementById("d5").style.display ='none';
+            }
+            else{
+                document.getElementById("w1").style.display ='none';
+                document.getElementById("w2").style.display ='none';
+                document.getElementById("w3").style.display ='none';
+                document.getElementById("w4").style.display ='none';
+                document.getElementById("w5").style.display ='none';
+                document.getElementById("d1").style.display ='none';
+                document.getElementById("d2").style.display ='none';
+                document.getElementById("d3").style.display ='none';
+                document.getElementById("d4").style.display ='none';
+                document.getElementById("d5").style.display ='block';
+            }
+
+        }
+    </script>
+</html>
